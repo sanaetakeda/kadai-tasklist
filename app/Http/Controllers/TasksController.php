@@ -13,7 +13,13 @@ class TasksController extends Controller
      */
     public function index()
     {
-        //
+        // メッセージ一覧を取得
+        $messages = Message::all();
+
+        // メッセージ一覧ビューでそれを表示
+        return view('tasks.index', [
+            'messages' => $messages,
+        ]);
     }
 
     /**
@@ -23,7 +29,12 @@ class TasksController extends Controller
      */
     public function create()
     {
-        //
+        $message = new Message;
+
+        // メッセージ作成ビューを表示
+        return view('tasks.create', [
+            'message' => $message,
+        ]);
     }
 
     /**
@@ -34,7 +45,13 @@ class TasksController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        // メッセージを作成
+        $message = new Message;
+        $message->content = $request->content;
+        $message->save();
+
+        // トップページへリダイレクトさせる
+        return redirect('/');
     }
 
     /**
@@ -45,7 +62,13 @@ class TasksController extends Controller
      */
     public function show($id)
     {
-        //
+        // idの値でメッセージを検索して取得
+        $message = Message::findOrFail($id);
+
+        // メッセージ詳細ビューでそれを表示
+        return view('tasks.show', [
+            'message' => $message,
+        ]);
     }
 
     /**
@@ -56,7 +79,13 @@ class TasksController extends Controller
      */
     public function edit($id)
     {
-        //
+        // idの値でメッセージを検索して取得
+        $message = Message::findOrFail($id);
+
+        // メッセージ編集ビューでそれを表示
+        return view('tasks.edit', [
+            'message' => $message,
+        ]);
     }
 
     /**
@@ -68,7 +97,14 @@ class TasksController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        // idの値でメッセージを検索して取得
+        $message = Message::findOrFail($id);
+        // メッセージを更新
+        $message->content = $request->content;
+        $message->save();
+
+        // トップページへリダイレクトさせる
+        return redirect('/');
     }
 
     /**
@@ -79,6 +115,12 @@ class TasksController extends Controller
      */
     public function destroy($id)
     {
-        //
+        // idの値でメッセージを検索して取得
+        $message = Message::findOrFail($id);
+        // メッセージを削除
+        $message->delete();
+
+        // トップページへリダイレクトさせる
+        return redirect('/');
     }
 }
